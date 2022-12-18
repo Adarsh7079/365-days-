@@ -1,0 +1,61 @@
+/*  739. Daily Temperatures
+Medium
+
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+ 
+
+Example 1:
+
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+
+Example 2:
+
+Input: temperatures = [30,40,50,60]
+Output: [1,1,1,0]
+
+Example 3:
+
+Input: temperatures = [30,60,90]
+Output: [1,1,0]
+
+ 
+
+Constraints:
+
+    1 <= temperatures.length <= 105
+    30 <= temperatures[i] <= 100
+
+ */
+ class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temp) {
+            //size nikal lo 
+            int n=temp.size();
+            stack<int>s;
+            
+            // sabhi vector ko 0 kar lo kyuki hm log har index pe ja kar value put kar rhe hai
+            vector<int>ans(n,0);
+            // iterate piche se kro kyuki hme aage wala greater chye or stack me hmesa latets large hoga due to LIFO 
+            for(int i=n-1;i>=0;i--)
+            {
+                    //ans.push_back(0);
+                    // stack me index hai islye 
+                    // stack me jo index hoga oo latest no hoga use array se compair kr lo or tab tak stack ko free krte jao jab tak use array ke ith se se bada value na mile kyuki oo bada value ek candidte answer hoga 
+                    while(s.size()>0 && temp[s.top()]<=temp[i])
+                    {
+                            s.pop();
+                    }
+                    // yaha tak aaye ho means that stack ke top pe bada value hai 
+                    if(!s.empty())
+                    {
+                            //ans ke same index pe ja kr top wala index ko ith index se sub kr lo yaha ith hmesa small hoga kykui stack to hmesa last wala phle krega  
+                            ans[i]=(s.top()-i);
+                    }
+                    //index push krte jao 
+                    s.push(i);
+            }
+            return ans;
+    }
+};
